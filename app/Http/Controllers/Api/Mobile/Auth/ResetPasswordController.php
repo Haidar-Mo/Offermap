@@ -24,7 +24,11 @@ class ResetPasswordController extends Controller
             DB::beginTransaction();
             DB::table('password_reset_tokens')->updateOrInsert(
                 ['email' => $request->email],
-                ['token' => $resetCode, 'expires_at' => now()->addSeconds(600), 'created_at' => now()]
+                [
+                    'code' => $resetCode,
+                    'expires_at' => now()->addSeconds(600),
+                    'created_at' => now()
+                ]
             );
             $user = User::where('email', $request->email)->first();
             Notification::send($user, new ResetPasswordNotification($resetCode));
@@ -45,7 +49,7 @@ class ResetPasswordController extends Controller
 
         $user = DB::table('password_reset_tokens')->select()
             ->where('email', $request->email)
-            ->where('token', $request->code)
+            ->where('code', $request->code)
             ->where('expires_at', '>', now())
             ->first();
 
@@ -65,7 +69,7 @@ class ResetPasswordController extends Controller
 
         $reset = DB::table('password_reset_tokens')
             ->where('email', $request->email)
-            ->where('token', $request->code)
+            ->where('code', $request->code)
             ->first();
 
         if (!$reset) {

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -28,7 +27,8 @@ return new class extends Migration
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
-            $table->string('token');
+            $table->string('code');
+            $table->timestamps('expires_at')->nullable();
             $table->timestamp('created_at')->nullable();
         });
 
