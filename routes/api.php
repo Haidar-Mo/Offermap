@@ -10,7 +10,8 @@ Route::prefix('v1/')->group(function () {
     //! Dashboard section
 
     Route::prefix('dashboard')->group(function () {
-
+        include __DIR__ . "/Api/V1/Dashboard/Auth.php";
+        include __DIR__ . "/Api/V1/Dashboard/Notification.php";
     });
 
 
