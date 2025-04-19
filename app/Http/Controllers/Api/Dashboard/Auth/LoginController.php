@@ -5,7 +5,7 @@ use App\Models\User;
 use App\Enums\TokenAbility;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\V1\Dashboard\LoginRequest;
+use App\Http\Requests\Api\V1\Dashboard\Auth\LoginRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
