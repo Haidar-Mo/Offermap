@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\Dashboard;
+namespace App\Http\Requests\Api\V1\Dashboard\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 

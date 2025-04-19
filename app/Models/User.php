@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\{
     HasPermissions,
     HasRoles
 };
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -23,7 +24,7 @@ class User extends Authenticatable
      * @var list<string>
      */
 
-     protected $guard_name='api';
+    protected $guard_name = 'api';
     protected $fillable = [
         'name',
         'email',
@@ -51,5 +52,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function store()
+    {
+        return $this->hasOne(Store::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    public function reported()
+    {
+        return $this->morphMany(Report::class, 'reportable');
     }
 }
