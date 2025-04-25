@@ -11,17 +11,12 @@ class CustomNotification extends Notification
 {
     use Queueable;
 
-    private $title, $body;
 
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($title, $body)
-    {
-        $this->title = $title;
-        $this->body = $body;
-    }
+    public function __construct(public $contnet) {}
 
     /**
      * Get the notification's delivery channels.
@@ -39,8 +34,8 @@ class CustomNotification extends Notification
     public function toDatabase(object $notifiable): array
     {
         return [
-            'title' => $this->title,
-            'body' => $this->body,
+
+            'content' => $this->contnet,
         ];
     }
 
