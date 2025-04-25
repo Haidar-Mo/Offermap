@@ -28,7 +28,7 @@ return new class extends Migration {
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('code');
-            $table->timestamps('expires_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamp('created_at')->nullable();
         });
 
