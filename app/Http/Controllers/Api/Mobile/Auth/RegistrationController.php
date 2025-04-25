@@ -6,7 +6,6 @@ use App\Enums\TokenAbility;
 use App\Http\Controllers\Controller;
 use App\Models\PendingUser;
 use App\Models\User;
-use App\Models\FavoriteList;
 use App\Notifications\VerificationCodeNotification;
 use Carbon\Carbon;
 use Exception;
@@ -31,7 +30,7 @@ class RegistrationController extends Controller
             'password' => ['required', 'min:6']
         ]);
 
-        $verificationCode = random_int(100000, 999999);
+        $verificationCode = 100000;//random_int(100000, 999999);
         $expirationTime = Carbon::now()->addMinutes(10);
         try {
             DB::beginTransaction();
@@ -46,7 +45,7 @@ class RegistrationController extends Controller
                 ]
             );
 
-            $user->notify(new VerificationCodeNotification($verificationCode));
+            // $user->notify(new VerificationCodeNotification($verificationCode));
 
             DB::commit();
             return response()->json(['message' => "Email registration done \n Verification email sent "], 200);
@@ -79,7 +78,7 @@ class RegistrationController extends Controller
                 'verification_code' => $verificationCode,
                 'verification_code_expires_at' => $expirationTime
             ]);
-           // $user->notify(new VerificationCodeNotification($verificationCode));
+            // $user->notify(new VerificationCodeNotification($verificationCode));
             DB::commit();
             return response()->json(['message' => 'Verification code has been re-sended'], 200);
         } catch (Exception $e) {
@@ -115,12 +114,8 @@ class RegistrationController extends Controller
 
         try {
             $new_user = DB::transaction(function () use ($user) {
-                $user->update([
-                    'email_verified_at' => now(),
-                    'verification_code_expires_at' => null
-                ]);
                 $newUser = User::create($user->only('email', 'password', 'email_verified_at'));
-                
+                $user->delete();
                 return $newUser;
             });
             $new_user->assignRole(Role::where('name', 'client')->where('guard_name', 'api')->first());
@@ -160,18 +155,15 @@ class RegistrationController extends Controller
         $request->validate([
             "first_name" => ['required', 'string'],
             "last_name" => ['required', 'string'],
-            'birth_date' => ['required', 'date'],
-            'description' => ['sometimes', 'string'],
-            "gender" => ['required', 'in:male,female'],
-            "address" => ['required'],
-            "device_token" => ['nullable'],
+            'phone_number' => ['required', 'numeric'],
+            'device_token' => ['sometimes', 'string']
         ]);
 
         try {
             $user = DB::transaction(function () use ($request) {
                 $user = Auth::user();
                 if ($user->is_full_registered)
-                    throw new Exception("your account is already full registered ", 422);
+                    throw new Exception("تم إكمال معلومات حسابك مسبقاً", 422);
                 $user->update($request->all());
 
                 return $user;
@@ -179,7 +171,7 @@ class RegistrationController extends Controller
 
             $user->append('is_full_registered');
             return response()->json([
-                'message' => 'Registration is completely done',
+                'message' => 'تم إكمال المعلومات بنجاح',
                 'user' => $user,
             ], 200);
         } catch (Exception $e) {

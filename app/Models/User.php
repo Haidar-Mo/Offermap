@@ -26,9 +26,12 @@ class User extends Authenticatable
 
     protected $guard_name = 'api';
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'phone_number',
+        'device_token'
     ];
 
     /**
@@ -67,5 +70,12 @@ class User extends Authenticatable
     public function reported()
     {
         return $this->morphMany(Report::class, 'reportable');
+    }
+
+    //! Accessories
+
+    public function getIsFullRegisteredAttribute()
+    {
+        return $this->first_name && $this->last_name && $this->phone_number ? true : false;
     }
 }
