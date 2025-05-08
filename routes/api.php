@@ -20,6 +20,8 @@ Route::prefix('v1/')->group(function () {
 
     Route::prefix('mobile')->group(function () {
         include __DIR__ . "/Api/V1/Mobile/Auth.php";
+        include __DIR__ . "/Api/V1/Mobile/Store.php";
+        include __DIR__ . "/Api/V1/Mobile/Branch.php";
 
     });
 });

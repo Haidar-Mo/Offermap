@@ -26,5 +26,18 @@ class AdminSeeder extends Seeder
 
         $user->assignRole('admin');
 
+
+        $haidar = User::create([
+            'name' => 'haidar',
+            'email' => 'haidar@gmail.com',
+            'phone_number' => '0936287134',
+            'password' => bcrypt('password'),
+            'email_verified_at' => Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        $haidar->assignRole('admin');
+
     }
 }
