@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->string('email')->primary();
             $table->string('code');
             $table->timestamp('expires_at')->nullable();
-            $table->timestamp('created_at')->nullable(); 
+            $table->timestamp('created_at')->nullable();
         });
 
 

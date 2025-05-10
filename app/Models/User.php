@@ -71,6 +71,26 @@ class User extends Authenticatable
         return $this->morphMany(Report::class, 'reportable');
     }
 
+    public function orders()
+    {
+        return $this->hasMany(OrderHistory::class, 'user_id');
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
+    public function media()
+    {
+        return $this->morphOne(Media::class, 'mediaable');
+    }
+
     //! Accessories
 
     public function getIsFullRegisteredAttribute()

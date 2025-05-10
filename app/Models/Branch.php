@@ -24,4 +24,14 @@ class Branch extends Model
     {
         return $this->hasMany(Advertisement::class);
     }
+
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
+    public function orderHistory()
+    {
+        return $this->hasMany(OrderHistory::class);
+    }
 }

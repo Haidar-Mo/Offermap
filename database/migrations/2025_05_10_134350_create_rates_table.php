@@ -10,17 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('advertisements', function (Blueprint $table) {
+        Schema::create('rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->decimal('price');
-            $table->decimal('discount_ratio');
-            $table->string('status');
-            $table->softDeletes();
+            $table->decimal('rate', 2, 1);
+            $table->string('comment');
             $table->timestamps();
         });
     }
@@ -30,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('advertisements');
+        Schema::dropIfExists('rates');
     }
 };

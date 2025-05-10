@@ -10,17 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('advertisements', function (Blueprint $table) {
+        Schema::create('order_histories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->decimal('price');
-            $table->decimal('discount_ratio');
+            $table->foreignId('advertisement_id')->constrained('advertisements')->cascadeOnDelete();
             $table->string('status');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('advertisements');
+        Schema::dropIfExists('order_histories');
     }
 };
