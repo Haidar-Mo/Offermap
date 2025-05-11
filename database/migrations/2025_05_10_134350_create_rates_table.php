@@ -10,14 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('rates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->string('latitude');
-            $table->string('longitude');
-            $table->string('type');
-            $table->string('contact_number');
+            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
+            $table->decimal('rate', 2, 1);
+            $table->string('comment');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('rates');
     }
 };

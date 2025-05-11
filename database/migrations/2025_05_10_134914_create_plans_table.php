@@ -10,14 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->string('latitude');
-            $table->string('longitude');
-            $table->string('type');
-            $table->string('contact_number');
+            $table->text('description');
+            $table->decimal('price');
+            $table->decimal('discount_price')->nullable();
+            $table->integer('size');
+            $table->integer('duration');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('plans');
     }
 };

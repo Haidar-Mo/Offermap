@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseTrait
 {
@@ -15,7 +16,7 @@ trait ResponseTrait
      * @param int $status
      * @return JsonResponse
      */
-    public function showResponse($data, string $message = 'Operation successful', int $status = 200): JsonResponse
+    public function showResponse($data, string $message = 'Operation succeeded', int $status = 200): JsonResponse
     {
         return response()->json([
             'success' => true,
@@ -31,15 +32,18 @@ trait ResponseTrait
      * @param int $status
      * @return JsonResponse
      */
-    public function showError(\Exception $exception, string $message = 'Operation failed', int $status = 500): JsonResponse
+    public function showError(\Exception $exception, string $message = 'Operation failed'): JsonResponse
     {
         Log::error('Error occurred: ' . $exception->getMessage());
-
+        $statusCode = $exception->getCode();
+        $validStatus = array_key_exists($statusCode, Response::$statusTexts)
+            ? $statusCode
+            : Response::HTTP_INTERNAL_SERVER_ERROR;
         return response()->json([
             'success' => false,
             'message' => $message,
             'error' => $exception->getMessage(),
-        ], $status);
+        ], $validStatus);
     }
 
     /**
