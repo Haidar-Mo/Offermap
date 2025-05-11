@@ -14,7 +14,8 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'mario',
+            'first_name' => 'mario',
+            'last_name' => 'androws',
             'email' => 'admin@gmail.com',
             'phone_number' => '0937723418',
             'password' => bcrypt('123456789'),
@@ -28,7 +29,8 @@ class AdminSeeder extends Seeder
 
 
         $haidar = User::create([
-            'name' => 'haidar',
+            'first_name' => 'mohammad',
+            'last_name' => 'haidar',
             'email' => 'haidar@gmail.com',
             'phone_number' => '0936287134',
             'password' => bcrypt('password'),
