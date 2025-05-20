@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     {
         $user = User::create([
             'first_name' => 'mario',
-            'last_name'=>'andrawos',
+            'last_name' => 'androws',
             'email' => 'admin@gmail.com',
             'phone_number' => '0937723418',
             'password' => bcrypt('123456789'),
@@ -28,8 +28,11 @@ class AdminSeeder extends Seeder
         $user->assignRole('admin');
 
 
-      /*  $haidar = User::create([
-            'name' => 'haidar',
+
+        $haidar = User::create([
+            'first_name' => 'mohammad',
+            'last_name' => 'haidar',
+
             'email' => 'haidar@gmail.com',
             'phone_number' => '0936287134',
             'password' => bcrypt('password'),
@@ -38,7 +41,7 @@ class AdminSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        $haidar->assignRole('admin');*/
+        $haidar->assignRole('admin');
 
     }
 }
