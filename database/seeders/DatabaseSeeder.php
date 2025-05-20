@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Advertisement;
 use App\Models\Branch;
+use App\Models\Media;
+use App\Models\Rate;
 use App\Models\Store;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\View;
 use Illuminate\Database\Seeder;
 
@@ -22,15 +23,12 @@ class DatabaseSeeder extends Seeder
 
 
         // Create a user with a store and 3 branches
-        User::factory()->has(
-            factory: Store::factory()->has(
-                factory: Branch::factory()->count(3)->has(
-                    factory: Advertisement::factory()->active()->count(5)->has(
-                        factory: View::factory()->count(10)
-                    )
-                )
-            )
-        )
+        User::factory()->has(Store::factory()
+            ->has(Branch::factory()->count(3)
+                ->has(Advertisement::factory()->active()->count(5)
+                    ->has(View::factory()->count(10))
+                    ->has(Media::factory()->count(2)))
+                ->has(Rate::factory()->count(7))))
             ->create();
     }
 }

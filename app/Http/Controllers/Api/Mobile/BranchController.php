@@ -7,7 +7,6 @@ use App\Http\Requests\Api\V1\Mobile\BranchCreateRequest;
 use App\Http\Requests\Api\V1\Mobile\BranchUpdateRequest;
 use App\Services\Mobile\BranchService;
 use App\Traits\ResponseTrait;
-use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {

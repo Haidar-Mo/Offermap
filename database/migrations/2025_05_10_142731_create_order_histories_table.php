@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
             $table->foreignId('advertisement_id')->constrained('advertisements')->cascadeOnDelete();
-            $table->string('status');
+            $table->string('status')->default('new');
             $table->timestamps();
         });
     }
