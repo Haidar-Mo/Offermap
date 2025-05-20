@@ -15,6 +15,10 @@ class Store extends Model
         'license_number',
         'commercial_register'
     ];
+    protected $appends = [
+        'created_from',
+        'plan_name'
+    ];
 
     public function user()
     {
@@ -26,4 +30,21 @@ class Store extends Model
         return $this->hasMany(Branch::class);
     }
 
+    //! Accessories
+
+    public function getCreatedFromAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function getPlanNameAttribute()
+    {
+
+        $latestSubscription = $this->user->subscriptions()
+            ->latest()
+            ->first();
+
+
+        return $latestSubscription?->plan?->name ?? '';
+    }
 }

@@ -14,7 +14,8 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'mario',
+            'first_name' => 'mario',
+            'last_name'=>'andrawos',
             'email' => 'admin@gmail.com',
             'phone_number' => '0937723418',
             'password' => bcrypt('123456789'),
@@ -27,7 +28,7 @@ class AdminSeeder extends Seeder
         $user->assignRole('admin');
 
 
-        $haidar = User::create([
+      /*  $haidar = User::create([
             'name' => 'haidar',
             'email' => 'haidar@gmail.com',
             'phone_number' => '0936287134',
@@ -37,7 +38,7 @@ class AdminSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        $haidar->assignRole('admin');
+        $haidar->assignRole('admin');*/
 
     }
 }
