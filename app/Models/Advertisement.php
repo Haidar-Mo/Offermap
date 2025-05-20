@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Advertisement extends Model
 {
@@ -21,6 +22,15 @@ class Advertisement extends Model
         'status',
     ];
 
+
+    protected $appends = [
+        'created_from',
+        'user_id',
+    ];
+    protected $hidden=[
+  
+        'deleted_at'
+    ];
 
 
     public function branch()
@@ -41,5 +51,30 @@ class Advertisement extends Model
     public function orderHistory()
     {
         return $this->hasMany(OrderHistory::class);
+    }
+
+    //! scopes
+    public function scopeSearchByTitle(Builder $query, string $title)
+    {
+        return $query->where('title', 'LIKE', "%{$title}%");
+    }
+
+    public function scopeFilterByStatus(Builder $query, string $status)
+    {
+        return $query->where('status', $status);
+    }
+
+
+
+    //! Accessories
+
+    public function getCreatedFromAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function getUserIdAttribute()
+    {
+        return $this->branch?->store?->user?->id;
     }
 }
