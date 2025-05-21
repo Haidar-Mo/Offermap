@@ -10,6 +10,7 @@ Route::prefix('homepage/')
         Route::get('branches/nearby', [HomePageController::class, 'getNearbyBranches']);
         Route::get('advertisements/branch/{id}', [HomePageController::class, 'getBranchAdvertisements']);
         Route::get('show/advertisement/{id}', [HomePageController::class, 'getAdvertisementDetails']);
+        Route::get('similar/advertisement/{id}', [HomePageController::class, 'getSimilarAdvertisement']);
 
         Route::post('order/advertisement/{id}', [HomePageController::class, 'orderAdvertisement']);
     });

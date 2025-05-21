@@ -56,12 +56,26 @@ class HomePageController extends Controller
         $order = DB::transaction(function () use ($advertisement) {
             return OrderHistory::create([
                 'advertisement_id' => $advertisement->id,
-                'user_id' => 2,// request()->user()->id,
+                'user_id' => request()->user()->id,
                 'branch_id' => $advertisement->branch_id,
                 'status' => OrderStatusEnum::NEW ,
             ]);
         });
         $order->load(['advertisement.media']);
         return $this->showResponse($order, 'تم إرسال طلبك بنجاح');
+    }
+
+
+    public function getSimilarAdvertisement(string $id)
+    {
+        $advertisement = Advertisement::findOrFail($id);
+        if ($advertisement->end_date < now())
+            return $this->showMessage('هذا الإعلان منتهي الصلاحية', 400);
+
+        $similar = Advertisement::whereHas('branch', function ($query) use ($advertisement) {
+            $query->where('type', $advertisement->branch->type);
+        })->paginate(10);
+
+        return $this->showResponse($similar, 'تم جلب الإعلانات المشابهة بنجاح');
     }
 }

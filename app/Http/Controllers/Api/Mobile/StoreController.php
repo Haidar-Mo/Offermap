@@ -17,17 +17,6 @@ class StoreController extends Controller
     {
     }
 
-    // public function index()
-    // {
-    //     try {
-    //         $stores = Store::all();
-    //         return $this->showResponse($stores, 'تم جلب كل المتاجر بنجاح', 200);
-    //     } catch (\Exception $e) {
-    //         return $this->showError($e, 'حدث خطأ أثناء جلب كل المتاجر');
-    //     }
-    // }
-
-
     public function show(string $id)
     {
         try {

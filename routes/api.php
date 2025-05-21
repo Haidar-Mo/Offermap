@@ -23,6 +23,7 @@ Route::prefix('v1/')->group(function () {
         include __DIR__ . "/Api/V1/Mobile/Store.php";
         include __DIR__ . "/Api/V1/Mobile/Branch.php";
         include __DIR__ . "/Api/V1/Mobile/HomePage.php";
+        include __DIR__ . "/Api/V1/Mobile/PlanAndSubscription.php";
 
     });
 });
