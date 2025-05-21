@@ -34,7 +34,7 @@ trait FirebaseNotificationTrait
 
         $notification = Notification::create($request->title, $request->body);
         $message = CloudMessage::new();
-        $message->toToken($token)
+         $message = CloudMessage::withTarget('token', $token)
             ->withNotification($notification);
         $this->messaging->send($message);
         return $message;
@@ -54,22 +54,55 @@ trait FirebaseNotificationTrait
         }
     }
 
-    public function sendNotificationToTopic($topic, $title, $body)
+
+    public function unsubscribeFromTopic($deviceToken, $topic)
     {
         $this->initializeFirebase();
 
         try {
-            $notification = Notification::create($title, $body);
-            $message = CloudMessage::new();
-            $message->toTopic($topic)
-                ->withNotification($notification);
-
-            $this->messaging->send($message);
-            Log::info('Notification sent successfully to topic: ' . $topic);
-            return ['success' => true, 'message' => 'Notification sent successfully!'];
-        } catch (Exception $e) {
-            Log::error('Firebase Topic Notification Error: ' . $e->getMessage());
-            return ['success' => false, 'message' => 'Failed to send notification'];
+            $this->messaging->unsubscribeFromTopic($topic, $deviceToken);
+            Log::info('Unsubscribed from topic: ' . $topic);
+            return ['success' => true];
+        } catch (\Exception $e) {
+            Log::error('Unsubscription error: ' . $e->getMessage());
+            return ['success' => false];
         }
     }
+
+
+  public function sendNotificationToTopic($topic, $title, $body)
+{
+    if (empty($topic)) {
+        Log::error('Topic is empty');
+        return;
+    }
+
+    $this->initializeFirebase();
+
+    try {
+        $message = CloudMessage::withTarget('topic', $topic)
+            ->withNotification([
+                'title' => $title,
+                'body' => $body,
+            ]);
+
+        $this->messaging->send($message);
+
+        // Logging the topic, title, and body
+        Log::info('Notification sent successfully to topic: ' . $topic, [
+            'title' => $title,
+            'body' => $body,
+        ]);
+
+        return ['success' => true, 'message' => 'Notification sent successfully!'];
+    } catch (Exception $e) {
+        Log::error('Firebase Topic Notification Error: ' . $e->getMessage(), [
+            'topic' => $topic,
+            'title' => $title,
+            'body' => $body,
+        ]);
+        return ['success' => false, 'message' => 'Failed to send notification'];
+    }
+}
+
 }
