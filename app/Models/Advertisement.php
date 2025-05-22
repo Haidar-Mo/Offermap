@@ -22,7 +22,14 @@ class Advertisement extends Model
         'status',
     ];
 
+ protected $appends = [
+        'created_from',
+        'user_id',
+    ];
+    protected $hidden = [
 
+        'deleted_at'
+    ];
 
     public function branch()
     {
@@ -44,6 +51,29 @@ class Advertisement extends Model
         return $this->hasMany(OrderHistory::class);
     }
 
+    //! scopes
+    public function scopeSearchByTitle(Builder $query, string $title)
+    {
+        return $query->where('title', 'LIKE', "%{$title}%");
+    }
+
+    public function scopeFilterByStatus(Builder $query, string $status)
+    {
+        return $query->where('status', $status);
+    }
+
+
+     //! Accessories
+
+    public function getCreatedFromAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function getUserIdAttribute()
+    {
+        return $this->branch?->store?->user?->id;
+    }
     public function getEndDateFormatAttribute()
     {
         Carbon::setLocale('ar');
