@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 class Advertisement extends Model
 {
@@ -22,16 +23,14 @@ class Advertisement extends Model
         'status',
     ];
 
-
-    protected $appends = [
+ protected $appends = [
         'created_from',
         'user_id',
     ];
-    protected $hidden=[
+    protected $hidden = [
   
         'deleted_at'
     ];
-
 
     public function branch()
     {
@@ -65,8 +64,7 @@ class Advertisement extends Model
     }
 
 
-
-    //! Accessories
+     //! Accessories
 
     public function getCreatedFromAttribute()
     {
@@ -77,4 +75,12 @@ class Advertisement extends Model
     {
         return $this->branch?->store?->user?->id;
     }
+
+    public function getEndDateFormatAttribute()
+    {
+        Carbon::setLocale('ar');
+        $diff = $this->created_at->locale('en')->diffForHumans();
+        return preg_replace('/(d+)/', '<strong>$1</strong>', $diff);
+    }
+
 }

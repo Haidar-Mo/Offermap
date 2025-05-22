@@ -18,6 +18,13 @@ class Subscription extends Model
         'number_of_remaining_ads'
     ];
 
+    public function casts(): array
+    {
+        return [
+            'starts_at' => 'date:Y-m-d',
+            'ends_at' => 'date:Y-m-d',
+        ];
+    }
 
     public function user()
     {
