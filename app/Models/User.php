@@ -43,6 +43,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = [
+        'created_from',
+    ];
+    
     /**
      * Get the attributes that should be cast.
      *
@@ -98,7 +102,11 @@ class User extends Authenticatable
         return $this->first_name && $this->last_name && $this->phone_number ? true : false;
     }
 
-
+ public function getCreatedFromAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+    
     public function HasRunningSubscription(): bool|Subscription|null
     {
         return $this->subscriptions()->where('status', 'running')->first() ?: false;
