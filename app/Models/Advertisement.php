@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 class Advertisement extends Model
@@ -27,7 +28,7 @@ class Advertisement extends Model
         'user_id',
     ];
     protected $hidden = [
-
+  
         'deleted_at'
     ];
 
@@ -74,10 +75,12 @@ class Advertisement extends Model
     {
         return $this->branch?->store?->user?->id;
     }
+
     public function getEndDateFormatAttribute()
     {
         Carbon::setLocale('ar');
         $diff = $this->created_at->locale('en')->diffForHumans();
         return preg_replace('/(d+)/', '<strong>$1</strong>', $diff);
     }
+
 }

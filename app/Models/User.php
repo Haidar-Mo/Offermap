@@ -46,7 +46,7 @@ class User extends Authenticatable
     protected $appends = [
         'created_from',
     ];
-    
+
     /**
      * Get the attributes that should be cast.
      *

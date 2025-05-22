@@ -13,6 +13,10 @@ Route::prefix('v1/')->group(function () {
         include __DIR__ . "/Api/V1/Dashboard/Auth.php";
         include __DIR__ . "/Api/V1/Dashboard/Notification.php";
         include __DIR__ . "/Api/V1/Dashboard/PendinNotification.php";
+        include __DIR__ . "/Api/V1/Dashboard/Plan.php";
+        include __DIR__ . "/Api/V1/Dashboard/User.php";
+        include __DIR__ . "/Api/V1/Dashboard/Delar.php";
+        include __DIR__ . "/Api/V1/Dashboard/Ads.php";
     });
 
 
