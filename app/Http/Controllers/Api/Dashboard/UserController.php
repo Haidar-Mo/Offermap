@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\Api\V1\Dashboard\UserUpdateRequest;
+use App\Http\Requests\Api\V1\Dashboard\{
+    StatusUserRequest,
+    UserUpdateRequest
+
+};
 class UserController extends Controller
 {
     use ResponseTrait;
@@ -63,11 +67,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, string $id)
+    public function update(StatusUserRequest $request, string $id)
     {
+
         $user=User::FindOrFail($id);
         $user->update($request->all());
-        return $this->showMessage('User updated successfully');
+        return $user;
+        return $this->showMessage('done successfully');
     }
 
     /**
@@ -79,4 +85,6 @@ class UserController extends Controller
         $user->delete();
         return $this->showMessage('user deleted successfully');
     }
+
+
 }

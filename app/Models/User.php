@@ -28,6 +28,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'is_blocked',
         'password',
         'phone_number',
         'device_token'
@@ -106,7 +107,7 @@ class User extends Authenticatable
     {
         return $this->created_at->diffForHumans();
     }
-    
+
     public function HasRunningSubscription(): bool|Subscription|null
     {
         return $this->subscriptions()->where('status', 'running')->first() ?: false;
