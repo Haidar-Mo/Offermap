@@ -1,10 +1,14 @@
 <?php
 
+use App\Enums\TokenAbility;
 use App\Http\Controllers\Api\Mobile\HomePageController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('homepage/')
-    ->middleware([])
+    ->middleware([
+        'auth:sanctum',
+        'ability:' . TokenAbility::ACCESS_API->value
+    ])
     ->group(function () {
 
         Route::get('branches/nearby', [HomePageController::class, 'getNearbyBranches']);

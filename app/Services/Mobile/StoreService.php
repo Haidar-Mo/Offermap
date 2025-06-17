@@ -14,7 +14,7 @@ class StoreService
 
     public function store(FormRequest $request)
     {
-        $user = $request->user();
+        $user = auth()->user();
         if ($user->store()->first()) {
             throw new Exception("لا يمكنك إنشاء أكثر من متجر", 400);
         }
@@ -29,8 +29,7 @@ class StoreService
 
     public function update(FormRequest $request)
     {
-        $user = $request->user();
-        $store = $user->store()->first();
+        $store = auth()->user()->store()->first();
         $data = $request->validated();
         if (!$store) {
             throw new Exception("عليك إنشاء المتجر أولاً", 400);
@@ -45,7 +44,7 @@ class StoreService
     {
         return DB::transaction(function () {
 
-            request()->user()
+            auth()->user()
                 ->store()->first()
                 ->delete();
         });

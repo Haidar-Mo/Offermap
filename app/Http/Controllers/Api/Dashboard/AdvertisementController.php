@@ -58,8 +58,8 @@ class AdvertisementController extends Controller
      */
     public function show(string $id)
     {
-        $ads=Advertisement::FindOrFail($id);
-        return $this->showResponse(new AdvertisementShowResource($ads),'done successfully');
+        $ads = Advertisement::FindOrFail($id);
+        return $this->showResponse(new AdvertisementShowResource($ads), 'done successfully');
     }
 
     /**
@@ -75,7 +75,7 @@ class AdvertisementController extends Controller
      */
     public function update(UpdateStatusAds $request, string $id)
     {
-        $ads=Advertisement::FindOrFail($id);
+        $ads = Advertisement::FindOrFail($id);
         $ads->update($request->all());
         return $this->showMessage('Status updated successfully');
     }

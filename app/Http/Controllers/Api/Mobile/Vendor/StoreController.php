@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\Mobile;
+namespace App\Http\Controllers\Api\Mobile\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Mobile\StoreCreateRequest;
 use App\Http\Requests\Api\V1\Mobile\StoreUpdateRequest;
-use App\Models\Store;
 use App\Services\Mobile\StoreService;
 use App\Traits\ResponseTrait;
 
@@ -17,10 +16,11 @@ class StoreController extends Controller
     {
     }
 
-    public function show(string $id)
+    public function show()
     {
         try {
-            $store = Store::with('branches')->findOrFail($id);
+            $store = auth()->user()
+                ->store()?->with('branches')->get();
             return $this->showResponse($store, 'تم جلب المتجر بنجاح', 200);
         } catch (\Exception $e) {
             return $this->showError($e, 'حدث خطأ أثناء عرض تفاصيل المتجر');
