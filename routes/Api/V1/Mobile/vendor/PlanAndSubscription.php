@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\TokenAbility;
-use App\Http\Controllers\Api\Mobile\PlanAndSubscriptionController;
+use App\Http\Controllers\Api\Mobile\Vendor\PlanAndSubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 

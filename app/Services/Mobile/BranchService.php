@@ -2,6 +2,8 @@
 
 namespace App\Services\Mobile;
 
+use App\Filters\Mobile\AdvertisementFilter;
+use App\Models\Advertisement;
 use App\Models\Branch;
 use App\Models\Store;
 use Illuminate\Foundation\Http\FormRequest;
@@ -14,15 +16,24 @@ use Illuminate\Support\Facades\DB;
 class BranchService
 {
 
-    public function index(string $id)
+    public function __construct(public AdvertisementFilter $filter)
     {
-        $store = Store::findOrFail($id);
-        return $store->branches()->get();
     }
 
-    public function show(string $id)
+
+    public function index()
     {
-        return Branch::findOrFail($id);
+        return auth()->user()
+            ->store()->first()
+            ->branches()->get();
+    }
+
+    public function show(string $id, Request $request)
+    {
+        $advertisements = Advertisement::query()->where('branch_id', '=', $id);
+        return $this->filter->apply(
+            $advertisements
+        );
     }
 
     public function store(FormRequest $request)
@@ -30,7 +41,7 @@ class BranchService
         $store = $request->user()->store()->first();
         $data = $request->validated();
         return DB::transaction(function () use ($data, $store) {
-            $branch = $store->branches()->create($data); 
+            $branch = $store->branches()->create($data);
             return $branch;
         });
     }

@@ -32,7 +32,6 @@ class AdminSeeder extends Seeder
         $haidar = User::create([
             'first_name' => 'mohammad',
             'last_name' => 'haidar',
-
             'email' => 'haidar@gmail.com',
             'phone_number' => '0936287134',
             'password' => bcrypt('password'),

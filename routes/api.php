@@ -9,7 +9,7 @@ Route::prefix('v1/')->group(function () {
 
     //! Dashboard section
 
-    Route::prefix('dashboard')->group(function () {
+    Route::prefix('dashboard/')->group(function () {
         include __DIR__ . "/Api/V1/Dashboard/Auth.php";
         include __DIR__ . "/Api/V1/Dashboard/Notification.php";
         include __DIR__ . "/Api/V1/Dashboard/PendinNotification.php";
@@ -22,12 +22,19 @@ Route::prefix('v1/')->group(function () {
 
     //! Mobile section
 
-    Route::prefix('mobile')->group(function () {
+    Route::prefix('mobile/')->group(function () {
         include __DIR__ . "/Api/V1/Mobile/Auth.php";
-        include __DIR__ . "/Api/V1/Mobile/Store.php";
-        include __DIR__ . "/Api/V1/Mobile/Branch.php";
         include __DIR__ . "/Api/V1/Mobile/HomePage.php";
-        include __DIR__ . "/Api/V1/Mobile/PlanAndSubscription.php";
+
+        Route::prefix('vendor/')->group(function () {
+
+            include __DIR__ . "/Api/V1/Mobile/vendor/Branch.php";
+            include __DIR__ . "/Api/V1/Mobile/vendor/Store.php";
+            include __DIR__ . "/Api/V1/Mobile/vendor/advertisement.php";
+            include __DIR__ . "/Api/V1/Mobile/vendor/order.php";
+            include __DIR__ . "/Api/V1/Mobile/vendor/PlanAndSubscription.php";
+
+        });
 
     });
 });

@@ -19,8 +19,8 @@ class BranchFactory extends Factory
         return [
             'store_id' => \App\Models\Store::factory(),
             'name' => $this->faker->streetName(),
-            'latitude' => $this->faker->latitude(),
-            'longitude' => $this->faker->longitude(),
+            'latitude' => $this->faker->latitude(30, 35),
+            'longitude' => $this->faker->longitude(-40, -45),
             'type' => $this->faker->randomElement(['A', 'B', 'C']),
             'contact_number' => $this->faker->phoneNumber(),
         ];

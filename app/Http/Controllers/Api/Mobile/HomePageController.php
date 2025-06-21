@@ -27,11 +27,6 @@ class HomePageController extends Controller
         )->get();
 
         return $this->showResponse($branches, "تم عرض المتاجر القريبة على بعد $distance كيلومتر ");
-        // Alternative if you're using MySQL 5.7+ with spatial support:
-        // $query->whereRaw("ST_Distance_Sphere(
-        //     point(longitude, latitude),
-        //     point(?, ?)
-        // ) <= ? * 1000", [$lng, $lat, $distance]);
     }
 
     public function getBranchAdvertisements(string $id)
@@ -56,7 +51,7 @@ class HomePageController extends Controller
         $order = DB::transaction(function () use ($advertisement) {
             return OrderHistory::create([
                 'advertisement_id' => $advertisement->id,
-                'user_id' => request()->user()->id,
+                'user_id' => auth()->user()->id,
                 'branch_id' => $advertisement->branch_id,
                 'status' => OrderStatusEnum::NEW ,
             ]);

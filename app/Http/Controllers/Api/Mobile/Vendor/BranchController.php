@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Mobile;
+namespace App\Http\Controllers\Api\Mobile\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Mobile\BranchCreateRequest;
 use App\Http\Requests\Api\V1\Mobile\BranchUpdateRequest;
 use App\Services\Mobile\BranchService;
 use App\Traits\ResponseTrait;
+use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
@@ -16,20 +17,24 @@ class BranchController extends Controller
     {
     }
 
-    public function index(string $id)
+    public function index()
     {
         try {
-            $branches = $this->service->index($id);
+            $branches = $this->service->index();
             return $this->showResponse($branches, 'تم جلب كل الفروع الخاصة بالمتجر');
         } catch (\Exception $e) {
             return $this->showError($e, 'حدث خطأ ما أثناء جلب الفروع الخاصة بالمتجر');
         }
     }
 
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
         try {
-            $branch = $this->service->show($id);
+            $branch = $this->service->show($id, $request)
+                ->latest()
+                ->paginate(10)
+                ->load(['media'])
+                ->makeHidden('branch');
             return $this->showResponse($branch, 'تم جلب الفرع بنجاح');
         } catch (\Exception $e) {
             return $this->showError($e, 'حدث خطأ ما أثناء عرض معلومات الفرع');

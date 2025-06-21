@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\TokenAbility;
-use App\Http\Controllers\Api\Mobile\BranchController;
+use App\Http\Controllers\Api\Mobile\Vendor\BranchController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,7 +11,7 @@ Route::prefix('branch/')
         'ability:' . TokenAbility::ACCESS_API->value
     ])->group(function () {
 
-        Route::get('index/{id}', [BranchController::class, 'index']);
+        Route::get('index', [BranchController::class, 'index']);
         Route::get('show/{id}', [BranchController::class, 'show']);
         Route::post('create', [BranchController::class, 'store']);
         Route::post('update/{id}', [BranchController::class, 'update']);

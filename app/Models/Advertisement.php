@@ -23,12 +23,12 @@ class Advertisement extends Model
         'status',
     ];
 
- protected $appends = [
+    protected $appends = [
         'created_from',
         'user_id',
     ];
     protected $hidden = [
-  
+
         'deleted_at'
     ];
 
@@ -64,11 +64,16 @@ class Advertisement extends Model
     }
 
 
-     //! Accessories
+    //! Accessories
 
     public function getCreatedFromAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    public function getBranchNameAttribute()
+    {
+        return $this->branch()->first()->name;
     }
 
     public function getUserIdAttribute()

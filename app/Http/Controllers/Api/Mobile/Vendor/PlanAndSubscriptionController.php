@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\Mobile;
+namespace App\Http\Controllers\Api\Mobile\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use App\Traits\ResponseTrait;
-use Illuminate\Http\Request;
 
 class PlanAndSubscriptionController extends Controller
 {
     use ResponseTrait;
+
     public function indexPlans()
     {
         $plans = Plan::all();
@@ -22,7 +22,7 @@ class PlanAndSubscriptionController extends Controller
         $user = auth()->user();
         if ($user->HasRunningSubscription())
             return $this->showMessage('انت بالفعل مشترك بباقة', 400, false);
-        return auth()->user()->subscriptions()->create([
+        $subscribe = auth()->user()->subscriptions()->create([
             'plan_id' => $plan->id,
             'status' => 'running',
             'starts_at' => now(),
@@ -30,7 +30,7 @@ class PlanAndSubscriptionController extends Controller
             'number_of_remaining_ads' => $plan->size,
             'afford_price' => $plan->discount_price ?: $plan->price
         ]);
-
+        return $this->showResponse($subscribe);
     }
 
     public function showSubscription()

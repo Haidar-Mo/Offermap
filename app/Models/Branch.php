@@ -36,4 +36,12 @@ class Branch extends Model
     {
         return $this->hasMany(OrderHistory::class);
     }
+
+
+    //! Accessories
+
+    public function getRateAttribute()
+    {
+        return $this->rates()->count() > 0 ? $this->rates()->sum('rate') / $this->rates()->count() : 0;
+    }
 }
