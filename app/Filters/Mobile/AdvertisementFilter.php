@@ -3,9 +3,7 @@
 namespace App\Filters\Mobile;
 
 use App\Filters\BaseFilter;
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 
 class AdvertisementFilter extends BaseFilter
 {

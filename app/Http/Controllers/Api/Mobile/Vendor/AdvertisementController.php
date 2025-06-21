@@ -27,7 +27,6 @@ class AdvertisementController extends Controller
         }
     }
 
-
     public function show(string $id)
     {
         try {
@@ -48,7 +47,6 @@ class AdvertisementController extends Controller
             return $this->showError($e);
         }
     }
-
 
     public function update(AdvertisementUpdateRequest $request, string $id)
     {

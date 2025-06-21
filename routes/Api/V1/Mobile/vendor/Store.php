@@ -12,7 +12,6 @@ Route::prefix('store/')
     ])
     ->group(function () {
 
-        Route::get('index', [StoreController::class, 'index']);
         Route::get('show', [StoreController::class, 'show']);
         Route::post('create', [StoreController::class, 'store']);
         Route::post('update', [StoreController::class, 'update']);

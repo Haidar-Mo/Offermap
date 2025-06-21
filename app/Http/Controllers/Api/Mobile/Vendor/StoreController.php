@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Mobile\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Mobile\StoreCreateRequest;
 use App\Http\Requests\Api\V1\Mobile\StoreUpdateRequest;
-use App\Services\Mobile\StoreService;
+use App\Services\Mobile\Vendor\StoreService;
 use App\Traits\ResponseTrait;
 
 class StoreController extends Controller
@@ -19,9 +19,8 @@ class StoreController extends Controller
     public function show()
     {
         try {
-            $store = auth()->user()
-                ->store()?->with('branches')->get();
-            return $this->showResponse($store, 'تم جلب المتجر بنجاح', 200);
+            $store = $this->service->show();
+            return $this->showResponse($store);
         } catch (\Exception $e) {
             return $this->showError($e, 'حدث خطأ أثناء عرض تفاصيل المتجر');
         }
