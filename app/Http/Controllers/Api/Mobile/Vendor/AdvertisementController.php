@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Mobile\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Mobile\AdvertisementCreateRequest;
 use App\Http\Requests\Api\V1\Mobile\AdvertisementUpdateRequest;
-use App\Services\Mobile\AdvertisementService;
+use App\Services\Mobile\Vendor\AdvertisementService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
