@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Dashboard\UpdateStatusAds;
+use App\Http\Requests\Api\V1\Dashboard\UpdateStatus;
 use Illuminate\Http\Request;
 use App\Models\{
     Advertisement
@@ -73,7 +73,7 @@ class AdvertisementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStatusAds $request, string $id)
+    public function update(UpdateStatus $request, string $id)
     {
         $ads = Advertisement::FindOrFail($id);
         $ads->update($request->all());
