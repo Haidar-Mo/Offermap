@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Mobile;
+namespace App\Services\Mobile\Vendor;
 
 use App\Enums\PathsEnum;
 use App\Models\Advertisement;
@@ -21,6 +21,8 @@ class AdvertisementService
     public function indexAllAdvertisements(Request $request)
     {
         $store = auth()->user()->store()->first();
+        if (!$store)
+            throw new \Exception("you do not have a store yet", 400);
 
         $branchIds = $store->branches()->pluck('id');
 
