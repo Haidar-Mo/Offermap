@@ -13,7 +13,9 @@ class Store extends Model
         'name',
         'type',
         'license_number',
-        'commercial_register'
+        'commercial_register',
+        'is_blocked',
+        'status'
     ];
     protected $appends = [
         'created_from',
