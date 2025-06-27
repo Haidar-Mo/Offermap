@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('license_number');
             $table->string('commercial_register');
             $table->enum('status', ['active', 'inactive'])->default('inactive');
-             $table->boolean('is_blocked')->default(false);
+            $table->boolean('is_blocked')->default(false);
             $table->timestamps();
         });
     }

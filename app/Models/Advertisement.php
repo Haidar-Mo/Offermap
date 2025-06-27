@@ -87,5 +87,4 @@ class Advertisement extends Model
         $diff = $this->created_at->locale('en')->diffForHumans();
         return preg_replace('/(d+)/', '<strong>$1</strong>', $diff);
     }
-
 }

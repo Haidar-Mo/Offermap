@@ -31,7 +31,19 @@ class HomePageController extends Controller
 
     public function getBranchAdvertisements(string $id)
     {
-        $branch = Branch::with(['advertisements.media'])->findOrFail($id);
+        $branch = Branch::with([
+            'advertisements' => function ($advertisement) {
+                $advertisement->where('status', '=', 'active')
+                    ->with('media')
+                    ->withCount('views');
+
+                //* we cant use make-hidden here because the function use query not Eloquent
+            }
+        ])->findOrFail($id);
+
+        $branch->advertisements->each(function ($ad) {
+            $ad->makeHidden(['branch']);
+        });
         return $this->showResponse($branch, 'تم جلب إعلانات الفرع بنجاح');
     }
 

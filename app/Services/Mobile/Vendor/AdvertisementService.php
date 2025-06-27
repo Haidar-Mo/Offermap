@@ -28,6 +28,7 @@ class AdvertisementService
 
         return Advertisement::whereIn('branch_id', $branchIds)
             ->with(['media', 'branch'])
+            ->withCount('views')
             ->paginate(10)
             ->through(function ($ad) {
                 $ad->branch->makeHidden(['store']);
@@ -43,6 +44,7 @@ class AdvertisementService
         $advertisement = Advertisement::with(['media', 'branch'])
             ->whereIn('branch_id', $branchIds)
             ->where('id', '=', $id)
+            ->withCount('views')
             ->first();
 
         $advertisement->branch->makeHidden(['store']);

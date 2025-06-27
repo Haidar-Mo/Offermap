@@ -32,6 +32,7 @@ class BranchController extends Controller
         try {
             $branch = $this->service->show($id, $request)
                 ->latest()
+                ->withCount(['views'])
                 ->paginate(10)
                 ->load(['media'])
                 ->makeHidden('branch');
