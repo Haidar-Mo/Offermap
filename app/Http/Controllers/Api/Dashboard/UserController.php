@@ -8,8 +8,8 @@ use App\Models\User;
 use App\Traits\ResponseTrait;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Api\V1\Dashboard\{
-    StatusUserRequest,
-    UserUpdateRequest
+    IsBlockRequest,
+
 
 };
 class UserController extends Controller
@@ -67,13 +67,16 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StatusUserRequest $request, string $id)
+    public function update(IsBlockRequest $request, string $id)
     {
 
         $user=User::FindOrFail($id);
         $user->update($request->all());
-        return $user;
-        return $this->showMessage('done successfully');
+         if ($request->is_blocked) {
+            return $this->showMessage('delar blocked successfully');
+        } else {
+            return $this->showMessage('delar unblocked successfully');
+        }
     }
 
     /**

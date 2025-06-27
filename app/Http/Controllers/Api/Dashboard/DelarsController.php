@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Dashboard\IsBlockRequest;
+use App\Http\Requests\Api\V1\Dashboard\UpdateStatus;
 use Illuminate\Http\Request;
 use App\Models\{
     User,
@@ -21,14 +23,18 @@ class DelarsController extends Controller
     public function index(Request $request)
     {
 
-        $delars = Store::when($request->has('search'), function ($query) use ($request) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%');
-            });
-        })
+        $delars = Store::query()
+            ->with('user')
+            ->withCount('branches')
+            ->when($request->has('search'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            })
             ->get();
 
-        return $this->showResponse(DelardsResource::collection($delars), 'done successfully');
+        return $this->showResponse(
+            DelardsResource::collection($delars),
+            'done successfully'
+        );
     }
 
     /**
@@ -52,8 +58,8 @@ class DelarsController extends Controller
      */
     public function show(string $id)
     {
-        $delars=Store::FindOrFail($id);
-        return $this->showResponse($delars->with(['user','branches','branches.advertisements'])->get());
+        $delars = Store::FindOrFail($id);
+        return $this->showResponse($delars->with(['user', 'branches', 'branches.advertisements'])->get());
     }
 
     /**
@@ -67,9 +73,11 @@ class DelarsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateStatus $request, string $id)
     {
-        //
+        $delar = Store::findOrFail($id);
+        $delar->update($request->all());
+        return $this->showMessage('done successfully');
     }
 
     /**
@@ -77,8 +85,22 @@ class DelarsController extends Controller
      */
     public function destroy(string $id)
     {
-        $delars=Store::FindOrFail($id);
+        $delars = Store::FindOrFail($id);
         $delars->delete();
         return $this->showMessage('delars deleted successfully');
+    }
+
+
+
+    public function IsBlock(IsBlockRequest $request, string $id)
+    {
+
+        $delar = Store::FindOrFail($id);
+        $delar->update($request->all());
+        if ($request->is_blocked) {
+            return $this->showMessage('delar blocked successfully');
+        } else {
+            return $this->showMessage('delar unblocked successfully');
+        }
     }
 }

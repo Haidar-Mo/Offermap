@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StatusUserRequest extends FormRequest
+class UpdateStatus extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class StatusUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'is_blocked'=>['required']
+            'status'=>['nullable'],
+
         ];
     }
 }

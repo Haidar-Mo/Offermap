@@ -13,5 +13,6 @@ use Illuminate\Support\Facades\Route;
     ->group(function () {
 
            Route::apiResource('delars',DelarsController::class);
+           Route::post('delars/is-block/{id}',[DelarsController::class,'Isblock']);
 
     });
